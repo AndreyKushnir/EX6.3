@@ -29,9 +29,19 @@ public class Team {
         return players;
     }
 
-    public void setPlayers(ArrayList<String> playersNames) {
-        for (String name: playersNames) {
-            players.add(new Player(name));
+    public Player getPlayer(String fragment) {
+        for (Player player: players) {
+            if (player.getLastname().contains(fragment)){
+                return player;
+            }
+        }
+        return null;
+    }
+
+    public void setPlayers(ArrayList<String> fullnames) {
+        for (String fullname: fullnames) {
+            var names = fullname.split(" ");
+            players.add(new Player(names[0],names[1]));
         }
     }
 }

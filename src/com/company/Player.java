@@ -1,15 +1,25 @@
 package com.company;
 
 //         Player Class
-//        Each player has a name.
+//        Each player has a firstname.
 public class Player {
-    private String name;
+    private String firstname;
+    private String lastname;
 
-    public Player(String name) {
-        this.name = name;
+    public Player(String lastname, String firstname) {
+        this.firstname = firstname;
+        this.lastname = lastname;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public String getFullname() {
+        return lastname + " " + firstname;
     }
 }
