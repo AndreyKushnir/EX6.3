@@ -18,7 +18,7 @@ public class League {
 
         zenit.addPlayer(new Player("Dzagoev"));
         for (int i=1; i<=2; i++) {
-            zenit.addPlayer(new Player("Berezutski" + i));
+            zenit.addPlayer(new Player("Berezutski " + i));
         }
 
         fcim.setPlayers(new ArrayList<>(asList("Falico", "Bostan", "Perebinos")));
@@ -29,7 +29,6 @@ public class League {
         var uefa1 = new Game(zenit,fcim,goals);
 
         uefa1.showStatistics();
-
 
     }
 
