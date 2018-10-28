@@ -23,18 +23,18 @@ public class Game {
         out.println("UEFA game: " + homeTeam.getName() + " - " + awayTeam.getName());
         out.println(homeTeam.getName() + ":");
         for (Player player: homeTeam.getPlayers()) {
-            out.println(player.getName());
+            out.println(player.getFirstname());
         }
 
         out.println("\n" + awayTeam.getName() + ":");
         for (Player player: awayTeam.getPlayers()) {
-            out.println(player.getName());
+            out.println(player.getFirstname());
         }
 
         out.println("\n" + "Goals:");
         for (Goal goal: goals) {
             out.println("Goal scored after " + goal.getTime() + " mins by "
-                    + goal.getPlayer().getName() + " of the " + goal.getTeam().getName());
+                    + goal.getPlayer().getFirstname() + " of the " + goal.getTeam().getName());
         }
     }
 

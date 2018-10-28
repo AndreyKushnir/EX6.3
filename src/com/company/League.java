@@ -15,21 +15,25 @@ public class League {
         var zenit = new Team("Zenit");
         var fcim = new Team("FCIM");
 
-
-        zenit.addPlayer(new Player("Dzagoev"));
-        for (int i=1; i<=2; i++) {
-            zenit.addPlayer(new Player("Berezutski " + i));
-        }
-
-        fcim.setPlayers(new ArrayList<>(asList("Falico", "Bostan", "Perebinos")));
+        fcim.setPlayers(new ArrayList<>(asList("Falico Serghey", "Balmus Ion", "Perebinos Mihai")));
+        zenit.setPlayers(new ArrayList<>(asList("Kolobkov Aleksandr", "Hromoy Dmitrii", "Mozila Ivan")));
 
         ArrayList<Goal> goals = new ArrayList<>();
         goals.add(new Goal(zenit, zenit.getPlayers().get(1), 45.23));
         goals.add(new Goal(fcim, fcim.getPlayers().get(0), 89.12));
-        var uefa1 = new Game(zenit,fcim,goals);
 
+        var uefa1 = new Game(zenit, fcim, goals);
         uefa1.showStatistics();
 
+        // --------------- ex7.4---------------------
+        System.out.println();
+        var player1 = fcim.getPlayer("li");
+        if (player1 != null)
+            System.out.println(player1.getFullname());
+
+        var player2 = zenit.getPlayer("kob");
+        if (player2 != null)
+            System.out.println(player2.getFullname());
     }
 
 }
