@@ -3,6 +3,7 @@ package com.company;
 //         Player Class
 //        Each player has a firstname.
 public class Player {
+
     private String firstname;
     private String lastname;
 

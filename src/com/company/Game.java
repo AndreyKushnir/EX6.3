@@ -1,6 +1,7 @@
 package com.company;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import static java.lang.System.out;
 
@@ -12,29 +13,31 @@ public class Game {
     private Team awayTeam;
     private ArrayList<Goal> goals;
 
-    public Game (Team homeTeam, Team awayTeam, ArrayList<Goal> goals) {
+    public void playGame(int maxGoals) {
+        goals = new ArrayList<>(new Random().nextInt(maxGoals+1));
+    }
+
+    public void playGame() {
+        goals = new ArrayList<>(new Random().nextInt(7));
+    }
+
+    public Game (Team homeTeam, Team awayTeam) {
         this.homeTeam = homeTeam;
         this.awayTeam = awayTeam;
+    }
+
+    public void setGoals(ArrayList<Goal> goals) {
         this.goals = goals;
     }
 
-
     public void showStatistics() {
         out.println("UEFA game: " + homeTeam.getName() + " - " + awayTeam.getName());
-        out.println(homeTeam.getName() + ":");
-        for (Player player: homeTeam.getPlayers()) {
-            out.println(player.getFirstname());
-        }
-
-        out.println("\n" + awayTeam.getName() + ":");
-        for (Player player: awayTeam.getPlayers()) {
-            out.println(player.getFirstname());
-        }
 
         out.println("\n" + "Goals:");
         for (Goal goal: goals) {
             out.println("Goal scored after " + goal.getTime() + " mins by "
-                    + goal.getPlayer().getFirstname() + " of the " + goal.getTeam().getName());
+                    + goal.getPlayer().getFullname()
+                    + " of the " + goal.getTeam().getName());
         }
     }
 
