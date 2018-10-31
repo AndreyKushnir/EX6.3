@@ -1,8 +1,8 @@
-package com.company;
+package utility;
 
 public class MaxSizeExceeded extends Exception {
 
-    public MaxSizeExceeded(String message) {
+    MaxSizeExceeded(String message) {
         super(message);
     }
 

@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.company.Game;
 import com.company.Goal;
-import com.company.MaxSizeExceeded;
 
 public class GameUtils {
     public static void addGameGoals(Game game, List<Goal> goals) throws MaxSizeExceeded {
