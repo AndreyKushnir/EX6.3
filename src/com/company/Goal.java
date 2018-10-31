@@ -8,21 +8,21 @@ public class Goal {
     private Player player;
     private double time;
 
-    public Goal(Team team, Player player, double time) {
+    Goal(Team team, Player player, double time) {
         this.team = team;
         this.player = player;
         this.time = time;
     }
 
-    public Team getTeam() {
+    Team getTeam() {
         return team;
     }
 
-    public Player getPlayer() {
+    Player getPlayer() {
         return player;
     }
 
-    public double getTime() {
+    double getTime() {
         return time;
     }
 }

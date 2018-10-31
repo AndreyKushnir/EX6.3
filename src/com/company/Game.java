@@ -30,7 +30,7 @@ public class Game {
     }
 
     public void setGoals(List<Goal> goals) {
-            this.goals = goals;
+        this.goals = goals;
     }
 
     public int getMaxGoals() {
