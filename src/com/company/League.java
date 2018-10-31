@@ -1,6 +1,8 @@
 package com.company;
 
 import java.util.ArrayList;
+import java.util.List;
+
 import static java.util.Arrays.*;
 import static utility.GameUtils.*;
 
@@ -9,29 +11,53 @@ import static utility.GameUtils.*;
 //        objects and assigning values.
 public class League {
 
-    public Game game;
+    private List<Game> games;
 
-    // why without arguments?
-    public ArrayList<Team> createTeams() {
-        var team1 = new Team("Zenit");
-        team1.setPlayers(new ArrayList<>(asList( "Kolobkov Aleksandr", "Hromoy Dmitry", "Mozila Ivan")));
-        var team2 = new Team("FCIM");
-        team2.setPlayers(new ArrayList<>(asList("Falico Serghey", "Balmus Ion", "Perebinos Mihai")));
-        return new ArrayList<>(asList(team1,team2));
+    private List<Team> teams;
+
+    private League() {
+        games = new ArrayList<>();
+        teams = new ArrayList<>();
     }
 
-    public Game createGame(ArrayList<Team> teams) {
-        return new Game(teams.get(0),teams.get(1));
+    private Team createTeam(String team1name, List<String> playersNames) {
+        var team = new Team(team1name);
+        team.setPlayers(playersNames);
+        teams.add(team);
+        return team;
+    }
+
+    private Game createGame(List<Team> teams) {
+        var game = new Game(teams.get(0), teams.get(1));
+        games.add(game);
+        return game;
     }
 
     public static void main(String[] args) {
         var league = new League();
-        var teams = league.createTeams();
-        var uefa = league.createGame(teams);
+
+        var zenit = league.createTeam("Zenit", asList("Kolobkov Aleksandr", "Hromoy Dmitry", "Mozila Ivan"));
+        var fcim = league.createTeam("FCIM", asList("Falico Serghey", "Balmus Ion", "Perebinos Mihai"));
+        var dinamo = league.createTeam("Dinamo", asList("Ivanov Aleksandr", "Rotaru Dmitry", "Romanov Ivan"));
+        var barcelona = league.createTeam("Barcelona", asList("Pepe Romero", "Gonzalez Huan", "Nizshe Frederich"));
+
+        var uefa = league.createGame(asList(dinamo, fcim));
+        var uefa2 = league.createGame(asList(zenit, barcelona));
+
         uefa.playGame(10);
-        addGameGoals(uefa,new ArrayList<>(asList(new Goal(teams.get(0), teams.get(0).getPlayers().get(1), 45.23),
-                new Goal(teams.get(1), teams.get(1).getPlayers().get(1), 89.12))));
+        uefa2.playGame(5);
+
+        try {
+            addGameGoals(uefa, asList(new Goal(uefa.getHomeTeam(), uefa.getHomeTeam().getPlayers().get(0), 45.23),
+                    new Goal(uefa.getAwayTeam(), uefa.getAwayTeam().getPlayers().get(1), 89.12)));
+            addGameGoals(uefa2, asList(new Goal(uefa2.getHomeTeam(), uefa2.getHomeTeam().getPlayers().get(1), 25.23),
+                    new Goal(uefa2.getAwayTeam(), uefa2.getAwayTeam().getPlayers().get(1), 19.12)));
+        } catch (MaxSizeExceeded e) {
+            e.printStackTrace();
+        }
         uefa.showStatistics();
+        uefa2.showStatistics();
+
     }
 
 }

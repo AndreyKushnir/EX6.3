@@ -1,14 +1,15 @@
 package com.company;
 
 import java.util.ArrayList;
+import java.util.List;
 
 //        Team Class
 //        Each team has a name. A team also contains a roster of its players.
 public class Team {
     private String name;
-    private ArrayList<Player> players;
+    private List<Player> players;
 
-    public Team(String name) {
+    Team(String name) {
         this.name = name;
         players = new ArrayList<>();
     }
@@ -17,7 +18,7 @@ public class Team {
         players.add(player);
     }
 
-    public String getName() {
+    String getName() {
         return name;
     }
 
@@ -25,7 +26,7 @@ public class Team {
         this.name = name;
     }
 
-    public ArrayList<Player> getPlayers() {
+    List<Player> getPlayers() {
         return players;
     }
 
@@ -38,7 +39,7 @@ public class Team {
         return null;
     }
 
-    public void setPlayers(ArrayList<String> fullnames) {
+    void setPlayers(List<String> fullnames) {
         for (String fullname: fullnames) {
             var names = fullname.split(" ");
             players.add(new Player(names[0],names[1]));
