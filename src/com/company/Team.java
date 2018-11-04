@@ -8,10 +8,31 @@ import java.util.List;
 public class Team {
     private String name;
     private List<Player> players;
+//  private List<Game> gamesPlayed;
+    private int points;
+    private int goalsScored;
 
     Team(String name) {
         this.name = name;
         players = new ArrayList<>();
+        points = 0;
+        goalsScored = 0;
+    }
+
+    void addPoints(int points) {
+        this.points += points;
+    }
+
+    public int getPoints() {
+        return points;
+    }
+
+    void addGoalsScored(int goalsScored) {
+        this.goalsScored += goalsScored;
+    }
+
+    public int getGoalsScored() {
+        return goalsScored;
     }
 
     public void addPlayer(Player player) {
@@ -31,8 +52,8 @@ public class Team {
     }
 
     public Player getPlayer(String fragment) {
-        for (Player player: players) {
-            if (player.getLastname().contains(fragment)){
+        for (Player player : players) {
+            if (player.getLastname().contains(fragment)) {
                 return player;
             }
         }
@@ -40,9 +61,9 @@ public class Team {
     }
 
     void setPlayers(List<String> fullnames) {
-        for (String fullname: fullnames) {
+        for (String fullname : fullnames) {
             var names = fullname.split(" ");
-            players.add(new Player(names[0],names[1]));
+            players.add(new Player(names[0], names[1]));
         }
     }
 }

@@ -1,8 +1,11 @@
 package com.company;
 
 import utility.MaxSizeExceeded;
+import utility.TeamGoalsComparator;
+import utility.TeamPointsComparator;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import static java.util.Arrays.*;
@@ -35,31 +38,59 @@ public class League {
         return game;
     }
 
+    private void showStatistics() {
+        teams.sort(new TeamPointsComparator().thenComparing(new TeamGoalsComparator()));
+
+        for (Team team : teams) {
+            System.out.println(team.getName() + " : "
+                    + team.getPoints() + " : "
+                    + team.getGoalsScored());
+        }
+
+        System.out.println("This year champions are: " +
+                teams.get(teams.size()-1).getName());
+    }
+
     public static void main(String[] args) {
         var league = new League();
 
-        var zenit = league.createTeam("Zenit", asList("Kolobkov Aleksandr", "Hromoy Dmitry", "Mozila Ivan"));
-        var fcim = league.createTeam("FCIM", asList("Falico Serghey", "Balmus Ion", "Perebinos Mihai"));
-        var dinamo = league.createTeam("Dinamo", asList("Ivanov Aleksandr", "Rotaru Dmitry", "Romanov Ivan"));
-        var barcelona = league.createTeam("Barcelona", asList("Pepe Romero", "Gonzalez Huan", "Nizshe Frederich"));
+        var zenit = league.createTeam("Zenit",
+                asList("Kolobkov Aleksandr", "Hromoy Dmitry", "Mozila Ivan"));
+        var fcim = league.createTeam("FCIM",
+                asList("Falico Serghey", "Balmus Ion", "Perebinos Mihai"));
 
-        var uefa = league.createGame(asList(dinamo, fcim));
-        var uefa2 = league.createGame(asList(zenit, barcelona));
+        var uefa1 = league.createGame(asList(zenit, fcim));
+        var uefa2 = league.createGame(asList(fcim, zenit));
+        var uefa3 = league.createGame(asList(zenit, fcim));
 
-        uefa.playGame(10);
+        uefa1.playGame(10);
         uefa2.playGame(5);
+        uefa3.playGame(10);
+
 
         try {
-            addGameGoals(uefa, asList(new Goal(uefa.getHomeTeam(), uefa.getHomeTeam().getPlayers().get(0), 45.23),
-                    new Goal(uefa.getAwayTeam(), uefa.getAwayTeam().getPlayers().get(1), 89.12)));
-            addGameGoals(uefa2, asList(new Goal(uefa2.getHomeTeam(), uefa2.getHomeTeam().getPlayers().get(1), 25.23),
-                    new Goal(uefa2.getAwayTeam(), uefa2.getAwayTeam().getPlayers().get(1), 19.12)));
+            addGameGoals(uefa1, asList(
+                    new Goal(uefa1.getHomeTeam(), uefa1.getHomeTeam().getPlayers().get(0), 45.23),
+                    new Goal(uefa1.getAwayTeam(), uefa1.getAwayTeam().getPlayers().get(1), 59.12),
+                    new Goal(uefa1.getAwayTeam(), uefa1.getAwayTeam().getPlayers().get(2), 89.12)));
+
+            addGameGoals(uefa2, asList(
+                    new Goal(uefa2.getAwayTeam(), uefa2.getAwayTeam().getPlayers().get(1), 35.12),
+                    new Goal(uefa2.getAwayTeam(), uefa2.getAwayTeam().getPlayers().get(1), 35.12)));
+
+            addGameGoals(uefa3, asList(
+                    new Goal(uefa3.getHomeTeam(), uefa3.getHomeTeam().getPlayers().get(0), 12.21),
+                    new Goal(uefa3.getAwayTeam(), uefa3.getAwayTeam().getPlayers().get(2), 55.12)));
         } catch (MaxSizeExceeded e) {
             e.printStackTrace();
         }
-        uefa.showStatistics();
-        uefa2.showStatistics();
 
+
+        uefa1.showStatistics();
+        uefa2.showStatistics();
+        uefa3.showStatistics();
+
+        league.showStatistics();
     }
 
 }

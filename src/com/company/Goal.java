@@ -8,6 +8,7 @@ public class Goal {
     private Player player;
     private double time;
 
+
     Goal(Team team, Player player, double time) {
         this.team = team;
         this.player = player;
@@ -18,11 +19,18 @@ public class Goal {
         return team;
     }
 
-    Player getPlayer() {
+    private Player getPlayer() {
         return player;
     }
 
-    double getTime() {
+    private double getTime() {
         return time;
+    }
+
+    @Override
+    public String toString() {
+        return "Goal scored after " + getTime() + " mins by "
+                + getPlayer().getFullname()
+                + " of the " + getTeam().getName();
     }
 }
