@@ -45,6 +45,7 @@ public class Game {
         updateStatistics();
     }
 
+
     private void updateStatistics() {
         homeTeam.addGoalsScored(homeTeamGoals);
         awayTeam.addGoalsScored(awayTeamGoals);
@@ -61,7 +62,7 @@ public class Game {
                     + awayTeamGoals + " - " + homeTeamGoals + " )";
         }
         else {
-            gameResult = "It's a draw! ( "
+            gameResult = "It's a dr aw! ( "
                     + awayTeamGoals + " - " + homeTeamGoals + " )";
             homeTeam.addPoints(1);
             awayTeam.addPoints(1);
