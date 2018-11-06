@@ -2,7 +2,7 @@ package utility;
 
 public class MaxSizeExceeded extends Exception {
 
-    MaxSizeExceeded(String message) {
+    public MaxSizeExceeded(String message) {
         super(message);
     }
 

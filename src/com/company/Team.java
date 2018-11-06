@@ -8,15 +8,15 @@ import java.util.List;
 public class Team {
     private String name;
     private List<Player> players;
-//  private List<Game> gamesPlayed;
     private int points;
     private int goalsScored;
 
-    Team(String name) {
+    Team(String name, List<String> players) {
         this.name = name;
-        players = new ArrayList<>();
         points = 0;
         goalsScored = 0;
+        this.players = new ArrayList<>();
+        setPlayers(players);
     }
 
     void addPoints(int points) {
@@ -60,10 +60,11 @@ public class Team {
         return null;
     }
 
-    void setPlayers(List<String> fullnames) {
+    private void setPlayers(List<String> fullnames) {
         for (String fullname : fullnames) {
             var names = fullname.split(" ");
             players.add(new Player(names[0], names[1]));
         }
+
     }
 }

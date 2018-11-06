@@ -1,5 +1,6 @@
 package com.company;
 
+import java.time.LocalDate;
 import java.util.*;
 
 import static java.lang.System.out;
@@ -8,6 +9,8 @@ import static java.lang.System.out;
 //        The application must keep track of games played. A game can be described by its home team, its away
 //        team, and each goal that may have been scored.
 public class Game {
+
+    private LocalDate gameDate;
     private Team homeTeam;
     private Team awayTeam;
     private List<Goal> goals;
@@ -26,11 +29,16 @@ public class Game {
         goals = new ArrayList<>(new Random().nextInt(7));
     }
 
-    Game(Team homeTeam, Team awayTeam) {
+    Game(Team homeTeam, Team awayTeam, LocalDate gameDate) {
         this.homeTeam = homeTeam;
         this.awayTeam = awayTeam;
+        this.gameDate = gameDate;
         this.homeTeamGoals = 0;
         this.awayTeamGoals = 0;
+    }
+
+    LocalDate getGameDate() {
+        return gameDate;
     }
 
     public void setGoals(List<Goal> goals) {
@@ -83,7 +91,7 @@ public class Game {
     void showStatistics() {
 
         out.println("UEFA game: " + homeTeam.getName() + " - " + awayTeam.getName());
-
+        out.println(gameDate);
         out.println("\n" + "Goals:");
         for (Goal goal : goals) {
             out.println(goal.toString());
