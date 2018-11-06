@@ -2,18 +2,14 @@ package com.company;
 
 import utility.*;
 
-import java.time.LocalDate;
 import java.time.Period;
 import java.time.Year;
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.Comparator;
 import java.util.List;
 
 import static java.util.Arrays.*;
-import static utility.GameUtils.*;
 import static utility.PlayerDatabase.*;
-
-import utility.MaxSizeExceeded;
 
 //        League Class
 //        This class contains a single main method. The main method simulates the league by instantiating
@@ -69,21 +65,23 @@ public class League {
 
         for (int i = 0; i < teams.size(); i++) {
             for (int j = i + 1; j < teams.size(); j++) {
-                createGame(teams.get(i), teams.get(j), Year.of(year).atDay((day += GAME_INTERVAL)));
-                createGame(teams.get(j), teams.get(i), Year.of(year).atDay(day += GAME_INTERVAL));
+                games.add(new Game(teams.get(i), teams.get(j), Year.of(year).atDay((day += GAME_INTERVAL))));
+                games.add(new Game(teams.get(j), teams.get(i), Year.of(year).atDay(day += GAME_INTERVAL)));
             }
         }
         return games;
     }
 
-    private Game createGame(Team team1, Team team2, LocalDate gameDate) {
-        var game = new Game(team1, team2, gameDate);
-        games.add(game);
-        return game;
-    }
 
-    private void showStatistics() {
-        teams.sort(new TeamPointsComparator().thenComparing(new TeamGoalsComparator()));
+    private void showBestTeams() {
+        teams.sort(Comparator.comparing(Team::getPoints).
+                thenComparing(Team::getGoalsScored).
+                thenComparing(Team::getName));
+
+//      teams.sort(new TeamGoalsComparator().thenComparing(new TeamPointsComparator()));
+
+        List<Team> champions = new ArrayList<>();
+        champions.add(teams.get(teams.size()-1));
 
         for (Team team : teams) {
             System.out.println(team.getName() + " : "
@@ -91,8 +89,15 @@ public class League {
                     + team.getGoalsScored());
         }
 
-        System.out.println("This year champions are: " +
-                teams.get(teams.size() - 1).getName());
+        for (int i=teams.size()-1; i>0; i--) {
+            if (teams.get(i-1) == teams.get(i)){
+                champions.add(teams.get(i-1));
+            }
+        }
+
+        System.out.println("This year champions are: ");
+        for (Team champion : champions)
+            System.out.println(champion.getName());
     }
 
     public static void main(String[] args) {
@@ -108,40 +113,13 @@ public class League {
             game.playGame(10);
         }
 
-        Game game;
-        try {
-            game = games.get(0);
-            addGameGoals(game, asList(
-                    new Goal(game.getHomeTeam(), game.getHomeTeam().getPlayers().get(1), 59.12),
-                    new Goal(game.getAwayTeam(), game.getAwayTeam().getPlayers().get(2), 89.12)));
-
-            game = games.get(1);
-            addGameGoals(games.get(1), asList(
-                    new Goal(game.getAwayTeam(), game.getAwayTeam().getPlayers().get(1), 35.12),
-                    new Goal(game.getAwayTeam(), game.getAwayTeam().getPlayers().get(1), 35.12)));
-
-            game = games.get(2);
-            addGameGoals(games.get(2), asList(
-                    new Goal(game.getHomeTeam(), game.getHomeTeam().getPlayers().get(0), 12.21),
-                    new Goal(game.getAwayTeam(), game.getAwayTeam().getPlayers().get(2), 55.12)));
-
-            game = games.get(3);
-            addGameGoals(games.get(3), asList(
-                    new Goal(game.getHomeTeam(), game.getHomeTeam().getPlayers().get(0), 10.21),
-                    new Goal(game.getAwayTeam(), game.getAwayTeam().getPlayers().get(1), 75.12),
-                    new Goal(game.getAwayTeam(), game.getAwayTeam().getPlayers().get(2), 85.12)));
-
-        } catch (MaxSizeExceeded e) {
-            e.printStackTrace();
-        }
-
         league.getLeagueAnnouncement(games.get(0),games.get(games.size()-1));
 
         for (Game g : league.games) {
             g.showStatistics();
         }
 
-        league.showStatistics();
+        league.showBestTeams();
 
     }
 

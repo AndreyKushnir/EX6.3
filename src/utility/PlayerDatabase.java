@@ -2,6 +2,7 @@ package utility;
 
 import java.util.HashMap;
 
+//почему все игроки в одной строке??
 public class PlayerDatabase {
 
     static public HashMap<String,String> teamToNames;

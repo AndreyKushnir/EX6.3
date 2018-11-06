@@ -10,12 +10,14 @@ public class Team {
     private List<Player> players;
     private int points;
     private int goalsScored;
+    private int countPlayers;
 
     Team(String name, List<String> players) {
         this.name = name;
         points = 0;
         goalsScored = 0;
         this.players = new ArrayList<>();
+        countPlayers = players.size()-1;
         setPlayers(players);
     }
 
@@ -66,5 +68,9 @@ public class Team {
             players.add(new Player(names[0], names[1]));
         }
 
+    }
+
+    public int getCountPlayers() {
+        return countPlayers;
     }
 }

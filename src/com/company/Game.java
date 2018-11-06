@@ -13,21 +13,12 @@ public class Game {
     private LocalDate gameDate;
     private Team homeTeam;
     private Team awayTeam;
-    private List<Goal> goals;
-//    private List<List<Goal>> teamsGoals;
     private int homeTeamGoals;
     private int awayTeamGoals;
     private int maxGoals;
+    private List<Goal> goals;
+    private List<GameEvent> gameEvents;
     private String gameResult;
-
-    void playGame(int maxGoals) {
-        this.maxGoals = maxGoals;
-        goals = new ArrayList<>(new Random().nextInt(maxGoals + 1));
-    }
-
-    public void playGame() {
-        goals = new ArrayList<>(new Random().nextInt(7));
-    }
 
     Game(Team homeTeam, Team awayTeam, LocalDate gameDate) {
         this.homeTeam = homeTeam;
@@ -37,23 +28,53 @@ public class Game {
         this.awayTeamGoals = 0;
     }
 
+    // почему не сделать отдельный List<Goal> goals,
+    // в чем преимущество использования абстрактного класса,
+    // если в методе подсчета голов нам нужен конкретно класс Goal?
+    void playGame(int maxGoals) {
+        this.maxGoals = maxGoals;
+        goals = new ArrayList<>(maxGoals);
+        gameEvents = new ArrayList<>();
+
+        for (int minute=1; minute<=90; minute++) {
+            var randomTeam = getRandomTeam();
+            var randomPlayer = getRandomPlayer(randomTeam);
+
+            if (minute%9==0) {
+                gameEvents.add(new Possession(randomTeam, randomPlayer, minute));
+            }
+
+            if ((minute%30==0) && (goals.size()-1 <= maxGoals)){
+                gameEvents.add(new Goal(randomTeam, randomPlayer, minute));
+                goals.add(new Goal(randomTeam, randomPlayer, minute));
+            }
+        }
+        setStatistics(gameEvents);
+    }
+
+    private Team getRandomTeam() {
+        return (new Random().nextInt(2) == 1) ? homeTeam : awayTeam;
+    }
+
+    private Player getRandomPlayer(Team team) {
+        return team.getPlayers().get(new Random().nextInt(team.getCountPlayers()+1));
+    }
+
+
     LocalDate getGameDate() {
         return gameDate;
     }
 
-    public void setGoals(List<Goal> goals) {
-        this.goals = goals;
+    private void setStatistics(List<GameEvent> gameEvents) {
 
-        for (Goal goal: goals) {
-            if (goal.getTeam().equals(homeTeam)) {
-                homeTeamGoals++;
+        for (GameEvent event: gameEvents) { // почему нужно проходиться по GameEvent, а не Goal?
+            if (event instanceof Goal) {
+                if (event.getTeam().equals(homeTeam)) {
+                    homeTeamGoals++;
+                } else awayTeamGoals++;
             }
-            else awayTeamGoals++;
         }
-        updateStatistics();
-    }
 
-    private void updateStatistics() {
         homeTeam.addGoalsScored(homeTeamGoals);
         awayTeam.addGoalsScored(awayTeamGoals);
 
@@ -76,25 +97,13 @@ public class Game {
         }
     }
 
-    public int getMaxGoals() {
-        return maxGoals;
-    }
-
-    Team getHomeTeam() {
-        return homeTeam;
-    }
-
-    Team getAwayTeam() {
-        return awayTeam;
-    }
-
-    void showStatistics() {
+    public void showStatistics() {
 
         out.println("UEFA game: " + homeTeam.getName() + " - " + awayTeam.getName());
         out.println(gameDate);
-        out.println("\n" + "Goals:");
-        for (Goal goal : goals) {
-            out.println(goal.toString());
+        out.println("\n" + "Events:");
+        for (GameEvent gameEvent: gameEvents){
+            out.println(gameEvent.getDescription());
         }
 
         out.println(gameResult + "\n");
