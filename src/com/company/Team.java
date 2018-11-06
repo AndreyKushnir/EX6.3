@@ -11,13 +11,14 @@ public class Team {
     private int points;
     private int goalsScored;
     private int countPlayers;
+    public final static int MAX_PLAYERS = 5;
 
     Team(String name, List<String> players) {
         this.name = name;
         points = 0;
         goalsScored = 0;
         this.players = new ArrayList<>();
-        countPlayers = players.size()-1;
+        countPlayers = players.size() - 1;
         setPlayers(players);
     }
 

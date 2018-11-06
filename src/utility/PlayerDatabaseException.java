@@ -1,8 +1,8 @@
 package utility;
 
-public class MaxSizeExceeded extends Exception {
+public class PlayerDatabaseException extends Exception {
 
-    public MaxSizeExceeded(String message) {
+    public PlayerDatabaseException(String message) {
         super(message);
     }
 

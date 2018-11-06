@@ -27,9 +27,9 @@ public class League {
         teams = new ArrayList<>();
     }
 
-//    private Player[] getTeam(int numberOfPlayers) throws MaxSizeExceeded {
+//    private Player[] getTeam(int numberOfPlayers) throws PlayerDatabaseException {
 //        if (numberOfPlayers > 3)
-//            throw new MaxSizeExceeded("Too many players selected!");
+//            throw new PlayerDatabaseException("Too many players selected!");
 //
 //        else {
 //            var playersNames = new PlayerDatabase().;
@@ -47,9 +47,10 @@ public class League {
                 + " month(s), and " + period.getDays() + " day(s)" + "\n");
     }
 
-    private Team createTeam(String team1name, int numberOfPlayers)  {
-//        if (numberOfPlayers > 5)
-//            throw new MaxSizeExceeded("Too many players selected!");
+    private Team createTeam(String team1name, int numberOfPlayers) throws PlayerDatabaseException {
+        if (numberOfPlayers > 5)
+            throw new PlayerDatabaseException("Too many players selected! (" + numberOfPlayers +"). " +
+                    "The max count is " + Team.MAX_PLAYERS);
         var team = new Team(team1name,
                 asList(teamToNames.get(team1name).split(",")).subList(0, numberOfPlayers));
         teams.add(team);
@@ -103,23 +104,27 @@ public class League {
     public static void main(String[] args) {
         var league = new League();
 
-        Team zenit = league.createTeam("Zenit", 5);
-        Team fcim = league.createTeam("FCIM", 5);
-        Team barcelona = league.createTeam("Barcelona", 5);
+        try {
+            Team zenit = league.createTeam("Zenit", 10);
+            Team fcim = league.createTeam("FCIM", 5);
+            Team barcelona = league.createTeam("Barcelona", 5);
 
-        List<Game> games = league.createGames(asList(zenit, fcim, barcelona));
+            List<Game> games = league.createGames(asList(zenit, fcim, barcelona));
 
-        for (Game game : games) {
-            game.playGame(10);
+            for (Game game : games) {
+                game.playGame(10);
+            }
+
+            league.getLeagueAnnouncement(games.get(0),games.get(games.size()-1));
+
+            for (Game g : league.games) {
+                g.showStatistics();
+            }
+
+            league.showBestTeams();
+        } catch (PlayerDatabaseException ex) {
+            ex.printStackTrace();
         }
-
-        league.getLeagueAnnouncement(games.get(0),games.get(games.size()-1));
-
-        for (Game g : league.games) {
-            g.showStatistics();
-        }
-
-        league.showBestTeams();
 
     }
 
