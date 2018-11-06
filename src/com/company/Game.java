@@ -11,7 +11,7 @@ public class Game {
     private Team homeTeam;
     private Team awayTeam;
     private List<Goal> goals;
-//    private List<List<Goal>> teamsGoals;
+    //    private List<List<Goal>> teamsGoals;
     private int homeTeamGoals;
     private int awayTeamGoals;
     private int maxGoals;
@@ -36,11 +36,10 @@ public class Game {
     public void setGoals(List<Goal> goals) {
         this.goals = goals;
 
-        for (Goal goal: goals) {
+        for (Goal goal : goals) {
             if (goal.getTeam().equals(homeTeam)) {
                 homeTeamGoals++;
-            }
-            else awayTeamGoals++;
+            } else awayTeamGoals++;
         }
         updateStatistics();
     }
@@ -55,14 +54,12 @@ public class Game {
             homeTeam.addPoints(2);
             gameResult = homeTeam.getName() + " win ( "
                     + homeTeamGoals + " - " + awayTeamGoals + " )";
-        }
-        else if (awayTeamGoals > homeTeamGoals) {
+        } else if (awayTeamGoals > homeTeamGoals) {
             awayTeam.addPoints(2);
             gameResult = awayTeam.getName() + " win ( "
                     + awayTeamGoals + " - " + homeTeamGoals + " )";
-        }
-        else {
-            gameResult = "It's a dr aw! ( "
+        } else {
+            gameResult = "It's a draw! ( "
                     + awayTeamGoals + " - " + homeTeamGoals + " )";
             homeTeam.addPoints(1);
             awayTeam.addPoints(1);
