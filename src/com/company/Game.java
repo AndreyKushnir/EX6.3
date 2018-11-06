@@ -36,15 +36,15 @@ public class Game {
         goals = new ArrayList<>(maxGoals);
         gameEvents = new ArrayList<>();
 
-        for (int minute=1; minute<=90; minute++) {
+        for (int minute = 1; minute <= 90; minute++) {
             var randomTeam = getRandomTeam();
             var randomPlayer = getRandomPlayer(randomTeam);
 
-            if (minute%9==0) {
+            if (minute % 9 == 0) {
                 gameEvents.add(new Possession(randomTeam, randomPlayer, minute));
             }
 
-            if ((minute%30==0) && (goals.size()-1 <= maxGoals)){
+            if ((minute % 30 == 0) && (goals.size() - 1 <= maxGoals)) {
                 gameEvents.add(new Goal(randomTeam, randomPlayer, minute));
                 goals.add(new Goal(randomTeam, randomPlayer, minute));
             }
@@ -57,7 +57,7 @@ public class Game {
     }
 
     private Player getRandomPlayer(Team team) {
-        return team.getPlayers().get(new Random().nextInt(team.getCountPlayers()+1));
+        return team.getPlayers().get(new Random().nextInt(team.getCountPlayers() + 1));
     }
 
 
@@ -67,7 +67,7 @@ public class Game {
 
     private void setStatistics(List<GameEvent> gameEvents) {
 
-        for (GameEvent event: gameEvents) { // почему нужно проходиться по GameEvent, а не Goal?
+        for (GameEvent event : gameEvents) { // почему нужно проходиться по GameEvent, а не Goal?
             if (event instanceof Goal) {
                 if (event.getTeam().equals(homeTeam)) {
                     homeTeamGoals++;
@@ -83,13 +83,11 @@ public class Game {
             homeTeam.addPoints(2);
             gameResult = homeTeam.getName() + " win ( "
                     + homeTeamGoals + " - " + awayTeamGoals + " )";
-        }
-        else if (awayTeamGoals > homeTeamGoals) {
+        } else if (awayTeamGoals > homeTeamGoals) {
             awayTeam.addPoints(2);
             gameResult = awayTeam.getName() + " win ( "
                     + awayTeamGoals + " - " + homeTeamGoals + " )";
-        }
-        else {
+        } else {
             gameResult = "It's a draw! ( "
                     + awayTeamGoals + " - " + homeTeamGoals + " )";
             homeTeam.addPoints(1);
@@ -102,7 +100,7 @@ public class Game {
         out.println("UEFA game: " + homeTeam.getName() + " - " + awayTeam.getName());
         out.println(gameDate);
         out.println("\n" + "Events:");
-        for (GameEvent gameEvent: gameEvents){
+        for (GameEvent gameEvent : gameEvents) {
             out.println(gameEvent.getDescription());
         }
 

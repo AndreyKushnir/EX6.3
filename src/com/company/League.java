@@ -49,7 +49,7 @@ public class League {
 
     private Team createTeam(String team1name, int numberOfPlayers) throws PlayerDatabaseException {
         if (numberOfPlayers > 5)
-            throw new PlayerDatabaseException("Too many players selected! (" + numberOfPlayers +"). " +
+            throw new PlayerDatabaseException("Too many players selected! (" + numberOfPlayers + "). " +
                     "The max count is " + Team.MAX_PLAYERS);
         var team = new Team(team1name,
                 asList(teamToNames.get(team1name).split(",")).subList(0, numberOfPlayers));
@@ -82,7 +82,7 @@ public class League {
 //      teams.sort(new TeamGoalsComparator().thenComparing(new TeamPointsComparator()));
 
         List<Team> champions = new ArrayList<>();
-        champions.add(teams.get(teams.size()-1));
+        champions.add(teams.get(teams.size() - 1));
 
         for (Team team : teams) {
             System.out.println(team.getName() + " : "
@@ -90,9 +90,9 @@ public class League {
                     + team.getGoalsScored());
         }
 
-        for (int i=teams.size()-1; i>0; i--) {
-            if (teams.get(i-1) == teams.get(i)){
-                champions.add(teams.get(i-1));
+        for (int i = teams.size() - 1; i > 0; i--) {
+            if (teams.get(i - 1) == teams.get(i)) {
+                champions.add(teams.get(i - 1));
             }
         }
 
@@ -115,7 +115,7 @@ public class League {
                 game.playGame(10);
             }
 
-            league.getLeagueAnnouncement(games.get(0),games.get(games.size()-1));
+            league.getLeagueAnnouncement(games.get(0), games.get(games.size() - 1));
 
             for (Game g : league.games) {
                 g.showStatistics();
